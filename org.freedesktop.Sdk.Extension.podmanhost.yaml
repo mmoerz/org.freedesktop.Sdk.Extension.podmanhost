@@ -21,3 +21,4 @@ modules:
     build-commands:
       - install -d /app/bin
       - ln -s /app/host-spawn /app/bin/podman
+      - ln -s /app/host-spawn /app/bin/podman-compose
