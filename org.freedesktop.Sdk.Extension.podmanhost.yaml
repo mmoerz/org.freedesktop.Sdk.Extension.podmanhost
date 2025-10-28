@@ -1,0 +1,23 @@
+id: org.freedesktop.Sdk.Extension.podmanhost
+branch: '24.08' # or match your Freedesktop SDK version
+runtime: org.freedesktop.Sdk
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+build-options:
+  no-debuginfo: true
+  strip: true
+  prefix: /app
+
+add-extensions:
+  org.freedesktop.Sdk.Extension.podmanhost:
+    directory: lib/sdk/podmanhost
+    subdirectories: true
+    no-autodownload: true
+    autodelete: false
+
+modules:
+  - name: podmanhost-symlink
+    buildsystem: simple
+    build-commands:
+      - install -d /app/bin
+      - ln -s /app/host-spawn /app/bin/podman

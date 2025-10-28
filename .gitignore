@@ -1,0 +1,23 @@
+# Flatpak build directories
+build-dir/
+.flatpak-builder/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Editor/IDE files
+*~
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Optional output bundles
+*.flatpak
+*.repo
