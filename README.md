@@ -29,6 +29,10 @@ Make sure you have flatpak-builder and the Freedesktop SDK installed.
 # Build the extension
 flatpak-builder build-dir org.freedesktop.Sdk.Extension.podmanhost.yaml --force-clean
 
+
+# Build and install the extension
+flatpak-builder build-dir org.freedesktop.Sdk.Extension.podmanhost.yaml --force-clean --user --install
+
 # (Optional) Install it locally
 flatpak-builder --install --user build-dir org.freedesktop.Sdk.Extension.podmanhost.yaml
 ```

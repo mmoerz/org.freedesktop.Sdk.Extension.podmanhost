@@ -33,6 +33,24 @@ modules:
     buildsystem: simple
     build-commands:
       - install -d /app/bin
-    post-install-commands:
-      - ln -sf /app/host-spawn /app/bin/podman
-      - ln -sf /app/host-spawn /app/bin/podman-compose
+      - install -d ${FLATPAK_DEST}/bin
+    #  - cp -r ${FLATPAK_DEST}/bin/* /app/bin/
+    # not working
+    #post-install-commands:
+    #  - ln -sf /app/host-spawn /app/bin/podman
+    #  - ln -sf /app/host-spawn /app/bin/podman-compose
+
+    script:
+      - name: podman-wrapper
+        dest: ${FLATPAK_DEST}/bin/podman
+        interpreter: /bin/sh
+        content: |
+          #!/bin/sh
+          exec /app/bin/host-spawn "$@"
+
+      - name: podman-compose-wrapper
+        dest: ${FLATPAK_DEST}/bin/podman-compose
+        interpreter: /bin/sh
+        content: |
+          #!/bin/sh
+          exec /app/bin/host-spawn "$@"
