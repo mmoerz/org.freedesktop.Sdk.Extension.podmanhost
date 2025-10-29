@@ -1,0 +1,37 @@
+id: org.freedesktop.Platform.Extension.podmanhost
+branch: '24.08'
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+build-extension: true
+extension-id: org.freedesktop.Platform.Extension.podmanhost
+extension-point: org.freedesktop.Platform.Extension
+
+build-options:
+  no-debuginfo: true
+  strip: true
+
+modules:
+  - name: podmanhost
+    buildsystem: simple
+    build-commands:
+      # install into the extension directory recognized by the runtime
+      - install -d ${FLATPAK_DEST}/lib/extensions/podmanhost/bin
+      - install -Dm755 podman-wrapper.sh ${FLATPAK_DEST}/lib/extensions/podmanhost/bin/podman
+      - install -Dm755 podman-compose-wrapper.sh ${FLATPAK_DEST}/lib/extensions/podmanhost/bin/podman-compose
+
+    sources:
+      - type: inline
+        dest-filename: podman-wrapper.sh
+        contents: |
+          #!/bin/sh
+          exec /app/bin/host-spawn podman "$@"
+
+      - type: inline
+        dest-filename: podman-compose-wrapper.sh
+        contents: |
+          #!/bin/sh
+          exec /app/bin/host-spawn podman-compose "$@"
+
+      - type: file
+        path: org.freedesktop.Platform.Extension.podmanhost.metainfo.xml

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>org.freedesktop.Platform.Extension.podmanhost</id>
+  <extends>org.freedesktop.Platform</extends>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>podman Host</name>
+  <summary>podman and podman-compose stubs using host-spawn</summary>
+  <url type="homepage">https://github.com/mmoerz/org.freedesktop.Sdk.Extension.podmanhost</url>
+  <releases>
+    <release version="0.01" date="2025-10-28">
+      <description></description>
+    </release>
+  </releases>
+</component>

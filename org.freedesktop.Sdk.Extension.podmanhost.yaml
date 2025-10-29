@@ -29,28 +29,42 @@ build-extension: true
 #     autodelete: false
 
 modules:
-  - name: podmanhost-symlink
+  - name: scripts
     buildsystem: simple
     build-commands:
-      - install -d /app/bin
       - install -d ${FLATPAK_DEST}/bin
+      - install -Dm755 podman-wrapper.sh ${FLATPAK_DEST}/bin/podman
+      - install -Dm755 podman-compose-wrapper.sh ${FLATPAK_DEST}/bin/podman-compose
+      - install -Dm755 {enable,install{,-sdk}}.sh -t ${FLATPAK_DEST}/
+      - install -Dm644 ${FLATPAK_ID}.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo
     #  - cp -r ${FLATPAK_DEST}/bin/* /app/bin/
     # not working
     #post-install-commands:
     #  - ln -sf /app/host-spawn /app/bin/podman
     #  - ln -sf /app/host-spawn /app/bin/podman-compose
 
-    script:
-      - name: podman-wrapper
-        dest: ${FLATPAK_DEST}/bin/podman
-        interpreter: /bin/sh
-        content: |
-          #!/bin/sh
-          exec /app/bin/host-spawn "$@"
+    sources:
+      - type: script
+        dest-filename: install.sh
+        commands:
+          - install -Dm 755 /usr/lib/sdk/podmanhost/bin/podman ${FLATPAK_DEST}/podmanhost/bin/podman
+      - type: script
+        dest-filename: install-sdk.sh
+        commands:
+          - cp -r /usr/lib/sdk/podmanhost ${FLATPAK_DEST}/podmanhost
+      - type: script
+        commands:
+          - export PATH=$PATH:/usr/lib/sdk/podmanhost/bin          
+        dest-filename: enable.sh
+      - type: file
+        path: org.freedesktop.Sdk.Extension.podmanhost.metainfo.xml
 
-      - name: podman-compose-wrapper
-        dest: ${FLATPAK_DEST}/bin/podman-compose
-        interpreter: /bin/sh
-        content: |
-          #!/bin/sh
-          exec /app/bin/host-spawn "$@"
+      - type: script
+        dest-filename: podman-wrapper.sh
+        commands:
+          - exec /app/bin/host-spawn "$@"
+
+      - type: script
+        dest-filename: podman-compose-wrapper.sh
+        commands:
+          - exec /app/bin/host-spawn "$@"
