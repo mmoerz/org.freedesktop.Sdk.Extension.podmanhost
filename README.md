@@ -2,7 +2,7 @@
 
 A minimal Flatpak SDK extension that exposes the host's
 **Podman** binary inside Flatpak SDK environments
-by symlinking `/app/host-spawn` to `/app/bin/podman`.
+by symlinking `/app/host-spawn` to `/app/bin/podman` and `/app/bin/podman-compose`.
 
 ---
 
@@ -21,7 +21,7 @@ podman build .
 
 will execute using the host's podman through /app/host-spawn.
 
-##🛠️ Building the Extension
+## 🛠️ Building the Extension
 
 Make sure you have flatpak-builder and the Freedesktop SDK installed.
 
@@ -33,7 +33,7 @@ flatpak-builder build-dir org.freedesktop.Sdk.Extension.podmanhost.yaml --force-
 flatpak-builder --install --user build-dir org.freedesktop.Sdk.Extension.podmanhost.yaml
 ```
 
-🧩 Using the Extension
+## 🧩 Using the Extension
 
 You can enable this SDK extension in another Flatpak manifest (for example, your app or SDK container):
 
@@ -44,7 +44,7 @@ sdk-extensions:
 
 Then, inside that environment, /app/bin/podman will resolve to /app/host-spawn, letting you call the host’s Podman.
 
-##🧹 Notes
+## 🧹 Notes
 
     This does not include Podman itself — it only symlinks the host binary via /app/host-spawn.
 
